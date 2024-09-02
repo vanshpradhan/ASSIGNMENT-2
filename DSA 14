@@ -1,0 +1,41 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_STUDENTS 100
+#define MAX_NAME_LENGTH 50
+
+int main() {
+    char studentNames[MAX_STUDENTS][MAX_NAME_LENGTH];  // Array to store student names
+    int count = 0;  // Variable to track the number of students who submitted
+    char name[MAX_NAME_LENGTH];
+    char choice;
+
+    printf("Classroom Assignment Submission Tracker\n");
+
+    do {
+        if (count < MAX_STUDENTS) {
+            // Prompt the teacher to enter the student's name
+            printf("\nEnter student's name: ");
+            scanf(" %[^\n]s", name);  // Read the student's name
+
+            // Insert the student's name into the array
+            strcpy(studentNames[count], name);
+            count++;
+
+            // Ask if the teacher wants to add another student
+            printf("Do you want to add another student? (y/n): ");
+            scanf(" %c", &choice);
+        } else {
+            printf("\nThe list is full! Cannot add more students.\n");
+            break;
+        }
+    } while (choice == 'y' || choice == 'Y');
+
+    // Display the list of students who submitted their assignments
+    printf("\nList of students who submitted their assignments:\n");
+    for (int i = 0; i < count; i++) {
+        printf("%d. %s\n", i + 1, studentNames[i]);
+    }
+
+    return 0;
+}
