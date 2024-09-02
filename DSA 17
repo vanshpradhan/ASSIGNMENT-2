@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <string.h>
+
+// Define the structure for student data
+typedef struct {
+    int registerNumber;
+    char name[100];
+    int age;
+    float cgpa;
+} Student;
+
+int main() {
+    // Create an array to hold the records of 5 students
+    Student students[5];
+    int i;
+    int maxIndex = 0;
+
+    // Input records for 5 students
+    for (i = 0; i < 5; i++) {
+        printf("Enter details for student %d\n", i + 1);
+
+        printf("Register Number: ");
+        scanf("%d", &students[i].registerNumber);
+        
+        printf("Name: ");
+        scanf(" %[^\n]%*c", students[i].name); // Read string with spaces
+        
+        printf("Age: ");
+        scanf("%d", &students[i].age);
+        
+        printf("CGPA: ");
+        scanf("%f", &students[i].cgpa);
+        
+        printf("\n");
+    }
+
+    // Find the student with the greatest CGPA
+    for (i = 1; i < 5; i++) {
+        if (students[i].cgpa > students[maxIndex].cgpa) {
+            maxIndex = i;
+        }
+    }
+
+    // Print the student with the highest CGPA
+    printf("Student with the highest CGPA:\n");
+    printf("Register Number: %d\n", students[maxIndex].registerNumber);
+    printf("Name: %s\n", students[maxIndex].name);
+    printf("Age: %d\n", students[maxIndex].age);
+    printf("CGPA: %.2f\n", students[maxIndex].cgpa);
+
+    return 0;
+}
