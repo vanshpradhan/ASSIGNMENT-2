@@ -1,0 +1,131 @@
+#include <stdio.h>
+
+#define MAX_SIZE 100  // Define the maximum size of the array
+
+// Function to print all elements of the array
+void printArray(int arr[], int size) {
+    printf("Array elements: ");
+    for (int i = 0; i < size; i++) {
+        printf("%d ", arr[i]);
+    }
+    printf("\n");
+}
+
+// Function to insert an element at a specific position
+void insertElement(int arr[], int *size, int element, int position) {
+    if (*size >= MAX_SIZE) {
+        printf("Array is full, cannot insert new element.\n");
+        return;
+    }
+    if (position < 0 || position > *size) {
+        printf("Invalid position.\n");
+        return;
+    }
+    for (int i = *size; i > position; i--) {
+        arr[i] = arr[i - 1];
+    }
+    arr[position] = element;
+    (*size)++;
+}
+
+// Function to delete an element from a specific position
+void deleteElement(int arr[], int *size, int position) {
+    if (*size == 0) {
+        printf("Array is empty, cannot delete element.\n");
+        return;
+    }
+    if (position < 0 || position >= *size) {
+        printf("Invalid position.\n");
+        return;
+    }
+    for (int i = position; i < *size - 1; i++) {
+        arr[i] = arr[i + 1];
+    }
+    (*size)--;
+}
+
+// Function to search for an element
+int searchElement(int arr[], int size, int element) {
+    for (int i = 0; i < size; i++) {
+        if (arr[i] == element) {
+            return i;  // Element found, return its position
+        }
+    }
+    return -1;  // Element not found
+}
+
+// Function to update an element at a specific position
+void updateElement(int arr[], int position, int newValue) {
+    arr[position] = newValue;
+}
+
+int main() {
+    int arr[MAX_SIZE];
+    int size = 0;  // Current number of elements in the array
+    int choice, element, position;
+
+    while (1) {
+        printf("\nArray Operations Menu:\n");
+        printf("1. Insert Element\n");
+        printf("2. Delete Element\n");
+        printf("3. Traverse Array\n");
+        printf("4. Search Element\n");
+        printf("5. Update Element\n");
+        printf("6. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                // Insert Element
+                printf("Enter element to insert: ");
+                scanf("%d", &element);
+                printf("Enter position (0 to %d): ", size);
+                scanf("%d", &position);
+                insertElement(arr, &size, element, position);
+                break;
+
+            case 2:
+                // Delete Element
+                printf("Enter position (0 to %d) of element to delete: ", size - 1);
+                scanf("%d", &position);
+                deleteElement(arr, &size, position);
+                break;
+
+            case 3:
+                // Traverse Array
+                printArray(arr, size);
+                break;
+
+            case 4:
+                // Search Element
+                printf("Enter element to search: ");
+                scanf("%d", &element);
+                position = searchElement(arr, size, element);
+                if (position != -1) {
+                    printf("Element %d found at position %d.\n", element, position);
+                } else {
+                    printf("Element %d not found.\n", element);
+                }
+                break;
+
+            case 5:
+                // Update Element
+                printf("Enter position (0 to %d) of element to update: ", size - 1);
+                scanf("%d", &position);
+                printf("Enter new value: ");
+                scanf("%d", &element);
+                updateElement(arr, position, element);
+                break;
+
+            case 6:
+                // Exit
+                return 0;
+
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+    }
+
+    return 0;
+}
