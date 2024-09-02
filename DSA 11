@@ -1,0 +1,58 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+typedef struct {
+    // Assuming each packet has a name and quantity for simplicity
+    char name[50];
+    int quantity;
+} ProductPacket;
+
+int main() {
+    int initialSize = 10;
+    int newSize;
+    ProductPacket *inventory;
+
+    // Allocate initial memory for 10 product packets
+    inventory = (ProductPacket *)malloc(initialSize * sizeof(ProductPacket));
+    if (inventory == NULL) {
+        printf("Memory allocation failed!\n");
+        return 1;
+    }
+
+    // Example of adding products
+    for (int i = 0; i < initialSize; i++) {
+        snprintf(inventory[i].name, sizeof(inventory[i].name), "Product %d", i + 1);
+        inventory[i].quantity = 10 * (i + 1);  // Example quantity
+    }
+
+    // Simulate changing market demand: resizing the inventory
+    printf("Enter new inventory size: ");
+    scanf("%d", &newSize);
+
+    // Reallocate memory to new size
+    ProductPacket *tempInventory = (ProductPacket *)realloc(inventory, newSize * sizeof(ProductPacket));
+    if (tempInventory == NULL) {
+        printf("Memory reallocation failed!\n");
+        free(inventory);  // Free the original memory
+        return 1;
+    }
+    inventory = tempInventory;
+
+    // Initialize new packets if the size has increased
+    if (newSize > initialSize) {
+        for (int i = initialSize; i < newSize; i++) {
+            snprintf(inventory[i].name, sizeof(inventory[i].name), "Product %d", i + 1);
+            inventory[i].quantity = 0;  // Initialize new packets with default values
+        }
+    }
+
+    // Print current inventory
+    for (int i = 0; i < newSize; i++) {
+        printf("Packet %d: %s, Quantity: %d\n", i + 1, inventory[i].name, inventory[i].quantity);
+    }
+
+    // Free allocated memory
+    free(inventory);
+
+    return 0;
+}
